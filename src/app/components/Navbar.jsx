@@ -13,8 +13,11 @@ export default function RedditNavbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  const { data: data, isLoading } = useAuth();
+  const { data, isLoading } = useAuth();
   const { mutate: logout } = useLogout();
+
+  // Safely access user data
+  const user = data?.user || null;
 
   const handleGoogleLogin = () => {
     authApi.loginWithGoogle();
@@ -112,25 +115,25 @@ export default function RedditNavbar() {
               {/* User Section - Conditional Rendering */}
               {isLoading ? (
                 <div className="w-10 h-10 bg-[#323234] rounded-full animate-pulse"></div>
-              ) : data.user ? (
+              ) : user ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center gap-2 xl:gap-3 px-3 xl:px-4 py-2 xl:py-3 text-gray-200 hover:bg-[#323234] rounded-full transition-all"
                   >
                     <span className="text-sm xl:text-base font-medium whitespace-nowrap">
-                      Hi, {data.user.name}
+                      Hi, {user.name}
                     </span>
-                    {data.user.avatarLink ? (
+                    {user.avatarLink ? (
                       <img
-                        src={data.user.avatarLink}
-                        alt={data.user.name}
+                        src={user.avatarLink}
+                        alt={user.name}
                         className="w-8 h-8 xl:w-9 xl:h-9 rounded-full object-cover"
                       />
                     ) : (
                       <div className="w-8 h-8 xl:w-9 xl:h-9 rounded-full bg-[#00ff1187] flex items-center justify-center">
                         <span className="text-white font-semibold text-sm">
-                          {data.user.name?.[0]?.toUpperCase() || "U"}
+                          {user.name?.[0]?.toUpperCase() || "U"}
                         </span>
                       </div>
                     )}
@@ -141,18 +144,18 @@ export default function RedditNavbar() {
                     <div className="absolute right-0 mt-2 w-56 bg-[#1a1a1b] border border-[#343536] rounded-lg shadow-lg slide-down">
                       <div className="py-2">
                         <button 
-    className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
->
-    <User className="w-5 h-5" />
-    <span className="text-sm">Profile</span>
-</button>
+                          className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
+                        >
+                          <User className="w-5 h-5" />
+                          <span className="text-sm">Profile</span>
+                        </button>
 
-<button 
-    className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
->
-    <Settings className="w-5 h-5" />
-    <span className="text-sm">Settings</span>
-</button>
+                        <button 
+                          className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
+                        >
+                          <Settings className="w-5 h-5" />
+                          <span className="text-sm">Settings</span>
+                        </button>
                         <button
                           onClick={handleLogout}
                           className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
@@ -196,21 +199,21 @@ export default function RedditNavbar() {
               {/* User Avatar or Sign Up - Mobile */}
               {isLoading ? (
                 <div className="w-8 h-8 bg-[#323234] rounded-full animate-pulse"></div>
-              ) : data.user ? (
+              ) : user ? (
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className="flex items-center gap-2"
                 >
-                  {data.user.avatarLink ? (
+                  {user.avatarLink ? (
                     <img
-                      src={data.user.avatarLink}
-                      alt={data.user.name}
+                      src={user.avatarLink}
+                      alt={user.name}
                       className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover"
                     />
                   ) : (
                     <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#00ff1187] flex items-center justify-center">
                       <span className="text-white font-semibold text-sm">
-                        {data.user.name?.[0]?.toUpperCase() || "U"}
+                        {user.name?.[0]?.toUpperCase() || "U"}
                       </span>
                     </div>
                   )}
@@ -267,14 +270,14 @@ export default function RedditNavbar() {
         {mobileMenuOpen && (
           <div className="lg:hidden bg-[#1a1a1b] border-t border-[#343536] slide-down">
             <div className="px-3 sm:px-4 py-3 space-y-2">
-              {data.user ? (
+              {user ? (
                 <>
                   {/* User Info */}
                   <div className="px-4 py-3 border-b border-[#343536]">
                     <p className="text-white font-semibold">
-                      Hi, {data.user.name}
+                      Hi, {user.name}
                     </p>
-                    <p className="text-gray-400 text-sm">{data.user.gmailId}</p>
+                    <p className="text-gray-400 text-sm">{user.gmailId}</p>
                   </div>
 
                   {/* Create Post */}
@@ -284,18 +287,18 @@ export default function RedditNavbar() {
                   </button>
 
                   <button 
-    className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
->
-    <User className="w-5 h-5" />
-    <span className="text-sm">Profile</span>
-</button>
+                    className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
+                  >
+                    <User className="w-5 h-5" />
+                    <span className="text-sm">Profile</span>
+                  </button>
 
-<button 
-    className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
->
-    <Settings className="w-5 h-5" />
-    <span className="text-sm">Settings</span>
-</button>
+                  <button 
+                    className="w-full flex items-center gap-3 px-4 py-2 text-gray-200 hover:bg-[#323234] transition-all"
+                  >
+                    <Settings className="w-5 h-5" />
+                    <span className="text-sm">Settings</span>
+                  </button>
 
                   {/* Divider */}
                   <div className="border-t border-[#343536] my-2"></div>
