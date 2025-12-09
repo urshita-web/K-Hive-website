@@ -19,6 +19,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { usePosts, useVotePost } from "@/lib/hooks/usePosts";
+import { useRouter } from "next/navigation";
 
 export default function RedditFeed() {
   const [activeFilter, setActiveFilter] = useState("hot");
@@ -26,6 +27,7 @@ export default function RedditFeed() {
   const [page, setPage] = useState(1);
   const [lastRefresh, setLastRefresh] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const router = useRouter();
 
   // Map filter names to API sortBy values
   const sortByMap = {
@@ -197,7 +199,7 @@ export default function RedditFeed() {
                         r/{post.tags?.[0] || "general"}
                       </span>
                       <span className="hidden xs:inline">•</span>
-                      <span className="hover:underline cursor-pointer truncate max-w-[80px] sm:max-w-none">
+                      <span onClick={() => router.push(`/profile/${post.userId}`)} className="hover:underline cursor-pointer truncate max-w-[80px] sm:max-w-none">
                         u/{post.user?.name || "Unknown User"}
                       </span>
                       <span className="hidden xs:inline">•</span>
