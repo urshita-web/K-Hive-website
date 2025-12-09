@@ -123,21 +123,16 @@ export default function RedditFeed() {
             <div className="flex-1"></div>
 
             {/* Refresh Button */}
-            <div className="flex flex-col items-end gap-1 ml-auto">
+            <div className="flex align-middle items-center">
               <button
                 onClick={handleRefresh}
                 disabled={isRefreshing}
-                className="flex items-center gap-2 px-3 py-2 text-white bg-[#272729] rounded-lg hover:bg-[#3a3a3c] transition-all disabled:opacity-50 flex-shrink-0"
+                className="flex items-center gap-2 px-3 py-2 text-white rounded-lg hover:bg-[#3a3a3c] transition-all disabled:opacity-50 flex-shrink-0"
               >
                 <RefreshCw
-                  className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
+                  className={`w-5 h-5 ${isRefreshing ? "animate-spin" : ""}`}
                 />
               </button>
-              {lastRefresh && (
-                <span className="text-[10px] text-gray-500 whitespace-nowrap">
-                  {formatTimeAgo(lastRefresh)}
-                </span>
-              )}
             </div>
           </div>
         </div>

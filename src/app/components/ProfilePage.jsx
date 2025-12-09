@@ -216,6 +216,7 @@ export default function ProfilePage() {
                   <img
                     src={displayUser.avatarLink}
                     alt={displayUser.name}
+                    referrerPolicy="no-referrer"
                     className="w-full h-full rounded-full object-cover"
                   />
                 ) : (
